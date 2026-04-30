@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Rama — Cloud Security</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d0d0d;
+  --bg2:#111;
+  --line:#222;
+  --line2:#333;
+  --text:#e8e8e8;
+  --muted:#666;
+  --dim:#444;
+  --accent:#c8c8c8;
+  --mono:'Courier New',Courier,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.7}
+
+/* NAV */
+nav{
+  position:fixed;top:0;width:100%;z-index:100;
+  border-bottom:1px solid var(--line);
+  background:var(--bg);
+  padding:0 40px;
+}
+.nav-i{max-width:780px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:52px}
+.nav-logo{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;transition:color .15s}
+.nav-links a:hover{color:var(--text)}
+
+/* LAYOUT */
+.wrap{max-width:780px;margin:0 auto;padding:0 40px}
+section{padding:80px 0}
+
+/* HERO */
+#hero{padding-top:160px;padding-bottom:100px}
+.h-label{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.1em;margin-bottom:28px}
+.h-name{font-size:clamp(36px,6vw,64px);font-weight:300;letter-spacing:-.02em;line-height:1.1;margin-bottom:20px;color:var(--text)}
+.h-name strong{font-weight:600}
+.h-line{width:32px;height:1px;background:var(--dim);margin:24px 0}
+.h-desc{font-size:14px;color:var(--muted);max-width:400px;line-height:1.8}
+.h-links{display:flex;gap:0;margin-top:48px;border-top:1px solid var(--line);padding-top:24px}
+.h-link{font-family:var(--mono);font-size:12px;color:var(--muted);text-decoration:none;margin-right:24px;transition:color .15s}
+.h-link:hover{color:var(--text)}
+.h-stats{display:flex;gap:40px;margin-top:40px}
+.h-stat p{font-size:22px;font-weight:300;font-family:var(--mono);color:var(--text)}
+.h-stat span{font-size:11px;color:var(--muted);display:block;margin-top:2px}
+
+/* DIVIDER */
+hr{border:none;border-top:1px solid var(--line)}
+
+/* SECTION HEADER */
+.s-head{display:flex;align-items:baseline;gap:16px;margin-bottom:48px}
+.s-num{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.s-title{font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+
+/* ABOUT */
+.about-block{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line)}
+.ab-cell{padding:24px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ab-cell:nth-child(2n){border-right:none}
+.ab-cell:nth-child(3),.ab-cell:nth-child(4){border-bottom:none}
+.ab-label{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.ab-val{font-size:13px;color:var(--accent);line-height:1.8}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.t{font-family:var(--mono);font-size:11px;color:var(--muted);padding:2px 8px;border:1px solid var(--line2);border-radius:2px}
+
+/* PROJECTS */
+.proj-list{border-top:1px solid var(--line)}
+.proj-item{border-bottom:1px solid var(--line);padding:20px 0;display:grid;grid-template-columns:1fr auto;align-items:start;gap:16px;text-decoration:none;transition:opacity .15s}
+.proj-item:hover{opacity:.7}
+.proj-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px}
+.proj-desc{font-size:13px;color:var(--muted);line-height:1.6}
+.proj-meta{display:flex;gap:8px;margin-top:10px;align-items:center}
+.proj-lang{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.proj-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.proj-right{text-align:right}
+.proj-star{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.proj-date{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:4px}
+#proj-loading{padding:20px 0;font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+/* JOURNEY */
+.jrn-list{border-top:1px solid var(--line)}
+.jrn-item{border-bottom:1px solid var(--line);padding:24px 0;display:grid;grid-template-columns:140px 1fr;gap:24px}
+.jrn-left{font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:3px}
+.jrn-status{margin-top:8px;font-size:10px;letter-spacing:.06em}
+.jrn-status.done{color:var(--dim)}
+.jrn-status.ongoing{color:var(--accent)}
+.jrn-status.next{color:var(--muted)}
+.jrn-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px}
+.jrn-desc{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* CONTACT */
+#contact{padding-bottom:120px}
+.ct-block{border-top:1px solid var(--line);padding-top:48px}
+.ct-text{font-size:clamp(20px,3vw,28px);font-weight:300;color:var(--accent);line-height:1.5;max-width:480px;margin-bottom:40px}
+.ct-links{display:flex;gap:24px;flex-wrap:wrap}
+.ct-link{font-family:var(--mono);font-size:12px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .15s}
+.ct-link:hover{color:var(--text)}
+.ct-link::before{content:'→';opacity:.4}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:20px 40px}
+.foot-i{max-width:780px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.foot-i p{font-family:var(--mono);font-size:11px;color:var(--dim)}
+
+@media(max-width:600px){
+  nav{padding:0 20px}
+  .wrap{padding:0 20px}
+  .about-block{grid-template-columns:1fr}
+  .ab-cell{border-right:none}
+  .ab-cell:nth-child(3){border-bottom:1px solid var(--line)}
+  .jrn-item{grid-template-columns:1fr;gap:8px}
+  footer{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-i">
+    <span class="nav-logo">ramadraf.github.io</span>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#projects">work</a>
+      <a href="#journey">journey</a>
+      <a href="#contact">contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="wrap">
+    <p class="h-label">// cloud security engineer</p>
+    <h1 class="h-name"><strong>Rama</strong><br/>Informatika student.<br/>Building in public.</h1>
+    <div class="h-line"></div>
+    <p class="h-desc">Fokus di cloud security — IAM, infrastruktur yang aman, dan memahami cara attacker berpikir. Setiap hari belajar, setiap minggu ada output.</p>
+    <div class="h-links">
+      <a href="https://github.com/ramadraf" target="_blank" class="h-link">github ↗</a>
+      <a href="https://linkedin.com/in/ramadraf" target="_blank" class="h-link">linkedin ↗</a>
+      <a href="mailto:rama@email.com" class="h-link">email ↗</a>
+    </div>
+    <div class="h-stats">
+      <div class="h-stat"><p id="stat-repos">—</p><span>public repos</span></div>
+      <div class="h-stat"><p id="stat-stars">—</p><span>total stars</span></div>
+      <div class="h-stat"><p id="stat-year">2025</p><span>journey started</span></div>
+    </div>
+  </div>
+</section>
+
+<hr/>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="s-head"><span class="s-num">01</span><span class="s-title">About</span></div>
+    <div class="about-block">
+      <div class="ab-cell">
+        <p class="ab-label">focus area</p>
+        <div class="tags">
+          <span class="t">cloud security</span>
+          <span class="t">AWS</span>
+          <span class="t">IAM</span>
+          <span class="t">zero trust</span>
+          <span class="t">CTF</span>
+          <span class="t">pentesting</span>
+          <span class="t">DevSecOps</span>
+        </div>
+      </div>
+      <div class="ab-cell">
+        <p class="ab-label">tools & stack</p>
+        <div class="tags">
+          <span class="t">Python</span>
+          <span class="t">Linux</span>
+          <span class="t">Terraform</span>
+          <span class="t">Bash</span>
+          <span class="t">Git</span>
+          <span class="t">Networking</span>
+        </div>
+      </div>
+      <div class="ab-cell">
+        <p class="ab-label">currently studying</p>
+        <p class="ab-val">AWS Security Specialty · TryHackMe · HackTheBox · OWASP Top 10</p>
+      </div>
+      <div class="ab-cell">
+        <p class="ab-label">goal</p>
+        <p class="ab-val">Lulus dengan portofolio solid. Raih sertifikasi AWS. Bermanfaat — nama ada, karya ada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr/>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="s-head"><span class="s-num">02</span><span class="s-title">Work</span></div>
+    <p id="proj-loading">fetching from github...</p>
+    <div id="proj-list" class="proj-list"></div>
+  </div>
+</section>
+
+<hr/>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="wrap">
+    <div class="s-head"><span class="s-num">03</span><span class="s-title">Journey</span></div>
+    <div class="jrn-list" id="jrn-list"></div>
+  </div>
+</section>
+
+<hr/>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="s-head"><span class="s-num">04</span><span class="s-title">Contact</span></div>
+    <div class="ct-block">
+      <p class="ct-text">Terbuka untuk diskusi, kolaborasi, atau sekadar ngobrol soal cloud security.</p>
+      <div class="ct-links">
+        <a href="https://github.com/ramadraf" target="_blank" class="ct-link">GitHub</a>
+        <a href="mailto:rama@email.com" class="ct-link">Email</a>
+        <a href="https://linkedin.com/in/ramadraf" target="_blank" class="ct-link">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-i">
+    <p>ramadraf.github.io</p>
+    <p id="foot-year"></p>
+  </div>
+</footer>
+
+<script>
+const USERNAME = 'ramadraf';
+
+// ── journey data — edit sesuai realitamu ──────────────────
+const JOURNEY = [
+  {
+    date:'2024',
+    title:'Mulai kuliah Informatika',
+    desc:'Fondasi: algoritma, jaringan, sistem operasi. Pertama kali kenal dunia keamanan siber.',
+    status:'done'
+  },
+  {
+    date:'Awal 2025',
+    title:'Belajar AWS dari nol',
+    desc:'IAM, S3, EC2, VPC. Sadar betapa konfigurasi yang salah bisa jadi celah besar.',
+    status:'done'
+  },
+  {
+    date:'2025',
+    title:'Aktif di GitHub',
+    desc:'Mulai build in public — setiap belajar ada output. Portofolio ini salah satunya.',
+    status:'done'
+  },
+  {
+    date:'Sekarang',
+    title:'CTF & hands-on security',
+    desc:'TryHackMe, HackTheBox, OWASP labs. Belajar cara berpikir attacker.',
+    status:'ongoing'
+  },
+  {
+    date:'Sekarang',
+    title:'Membangun cloud security portfolio',
+    desc:'Setiap project diarahkan ke security use case nyata: audit, hardening, monitoring.',
+    status:'ongoing'
+  },
+  {
+    date:'Next',
+    title:'AWS Security Specialty',
+    desc:'Sertifikasi sebagai validasi kompetensi yang diakui industri.',
+    status:'next'
+  },
+  {
+    date:'Next',
+    title:'Kontribusi open-source',
+    desc:'Beri balik ke komunitas. Karya ada, nama ada, bermanfaat.',
+    status:'next'
+  }
+];
+
+// ── lang colors ───────────────────────────────────────────
+const LC = {
+  Python:'#4584b6',JavaScript:'#c8b400',TypeScript:'#2f74c0',
+  Shell:'#6a9a3a',Go:'#00ADD8',Rust:'#b7410e',
+  Java:'#5382a1','C++':'#f34b7d',HTML:'#c0390f',
+  CSS:'#563d7c',PHP:'#6181b6',HCL:'#844fba',
+  Dockerfile:'#0db7ed'
+};
+
+// ── github fetch ──────────────────────────────────────────
+async function loadGitHub(){
+  try{
+    const r = await fetch(`https://api.github.com/users/${USERNAME}/repos?sort=updated&per_page=30`);
+    if(!r.ok) throw new Error();
+    const repos = await r.json();
+
+    const own = repos.filter(r=>!r.fork);
+    const stars = own.reduce((a,r)=>a+r.stargazers_count,0);
+    document.getElementById('stat-repos').textContent = own.length;
+    document.getElementById('stat-stars').textContent = stars;
+
+    document.getElementById('proj-loading').style.display='none';
+    const list = document.getElementById('proj-list');
+
+    own.slice(0,12).forEach(repo=>{
+      const color = LC[repo.language]||'#555';
+      const langHtml = repo.language
+        ? `<span class="proj-dot" style="background:${color}"></span><span class="proj-lang">${repo.language}</span>`
+        : '';
+      const starHtml = repo.stargazers_count>0
+        ? `<span class="proj-star">${repo.stargazers_count} ★</span>` : '';
+      const updated = repo.updated_at.slice(0,10);
+
+      const a = document.createElement('a');
+      a.className='proj-item';
+      a.href=repo.html_url;
+      a.target='_blank';
+      a.innerHTML=`
+        <div>
+          <p class="proj-name">${repo.name}</p>
+          <p class="proj-desc">${repo.description||'—'}</p>
+          <div class="proj-meta">${langHtml}</div>
+        </div>
+        <div class="proj-right">
+          ${starHtml}
+          <p class="proj-date">${updated}</p>
+        </div>`;
+      list.appendChild(a);
+    });
+  } catch(e){
+    document.getElementById('proj-loading').textContent=`github.com/${USERNAME} — could not fetch`;
+  }
+}
+
+// ── journey render ────────────────────────────────────────
+function loadJourney(){
+  const labels={done:'✓ done',ongoing:'● ongoing',next:'○ upcoming'};
+  const el = document.getElementById('jrn-list');
+  JOURNEY.forEach(j=>{
+    el.innerHTML+=`
+      <div class="jrn-item">
+        <div class="jrn-left">
+          <div>${j.date}</div>
+          <div class="jrn-status ${j.status}">${labels[j.status]}</div>
+        </div>
+        <div>
+          <p class="jrn-title">${j.title}</p>
+          <p class="jrn-desc">${j.desc}</p>
+        </div>
+      </div>`;
+  });
+}
+
+// ── init ──────────────────────────────────────────────────
+document.getElementById('foot-year').textContent = new Date().getFullYear();
+loadGitHub();
+loadJourney();
+</script>
+</body>
+</html>
